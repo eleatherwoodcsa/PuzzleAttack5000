@@ -10,3 +10,8 @@ C:\Users\mcooksey\Documents\PuzzleAttack5000\PuzzleAttack5000\PuzzleAttack5000\b
 C:\Users\mcooksey\Documents\PuzzleAttack5000\PuzzleAttack5000\PuzzleAttack5000\obj\Debug\PuzzleAttack5000.exe
 C:\Users\mcooksey\Documents\PuzzleAttack5000\PuzzleAttack5000\PuzzleAttack5000\obj\Debug\PuzzleAttack5000.pdb
 C:\Users\mcooksey\Documents\PuzzleAttack5000\PuzzleAttack5000\PuzzleAttack5000\obj\Debug\PuzzleAttack5000.csprojResolveAssemblyReference.cache
+C:\Users\mcooksey\Documents\GitHub\PuzzleAttack5000\PuzzleAttack5000\bin\Debug\PuzzleAttack5000.exe.config
+C:\Users\mcooksey\Documents\GitHub\PuzzleAttack5000\PuzzleAttack5000\obj\Debug\PuzzleAttack5000.exe
+C:\Users\mcooksey\Documents\GitHub\PuzzleAttack5000\PuzzleAttack5000\obj\Debug\PuzzleAttack5000.pdb
+C:\Users\mcooksey\Documents\GitHub\PuzzleAttack5000\PuzzleAttack5000\bin\Debug\PuzzleAttack5000.exe
+C:\Users\mcooksey\Documents\GitHub\PuzzleAttack5000\PuzzleAttack5000\bin\Debug\PuzzleAttack5000.pdb

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -125,10 +126,11 @@ namespace PuzzleAttack5000 {
             //if (num1 == num2) {
             //Console.Write("Enter a message, then press enter: ");
             //string Phrase = Console.ReadLine();
-            string Phrase = GetVerseOfTheDay();
+            //string Phrase = GetVerseOfTheDay();
+            string Phrase = GetQuoteOfTheDay();
             if (!Phrase.Equals("")) {
                 string FileName = DateTime.Now.ToString("yyyy-MM-dd_HHmmss");
-                string path = Path.Combine("C:\\puzzles\\", FileName + ".txt");
+                string path = Path.Combine("C:\\puzzles\\", FileName + "_quote.txt");
                 StreamWriter Writer = File.CreateText(path);
 
                 Console.Clear();
@@ -160,9 +162,9 @@ namespace PuzzleAttack5000 {
 
         public static void WriteErrorMail(string ErrorMessage) {
             MailMessage Message = new MailMessage();
-            Message.From = new MailAddress("mcooksey@csa1.com", "Puzzle Attack 5000");
+            Message.From = new MailAddress("mcooksey@csa1.com", "Puzzle Attack 5010");
 
-            Message.Subject = "Verse Puzzle Failure";
+            Message.Subject = "Quote Puzzle Failure";
             Message.Body = ErrorMessage;
             Message.To.Add("mcooksey@csa1.com");
 
@@ -176,9 +178,9 @@ namespace PuzzleAttack5000 {
 
         private static void WriteEmail(string EncodedPhrase) {
             MailMessage Message = new MailMessage();
-            Message.From = new MailAddress("mcooksey@csa1.com", "Puzzle Attack 5000");
+            Message.From = new MailAddress("mcooksey@csa1.com", "Puzzle Attack 5010");
 
-            Message.Subject = "Verse of the Day Puzzle!";
+            Message.Subject = "Quote of the Day Puzzle!";
             Message.Body = EncodedPhrase;
 
 
@@ -200,7 +202,7 @@ namespace PuzzleAttack5000 {
             MailMessage Message = new MailMessage();
             Message.From = new MailAddress("mcooksey@csa1.com");
 
-            Message.Subject = "Verse of the Day Puzzle!";
+            Message.Subject = "Quote of the Day Puzzle!";
             Message.IsBodyHtml = true;
             Message.Body = "<html><body><font size=\"3\" face=\"arial\">" + EncodedPhrase + "</font>"
                        + "<br><br><font size=\"1\" face=\"arial\"><i>Click <a href=\"10.1.150.174:8080/" + FileName + ".txt\">here</a> to see the solution.</i></font></body></html>";
@@ -212,6 +214,34 @@ namespace PuzzleAttack5000 {
             Client.Host = Credentials.Host;
             Client.Credentials = new NetworkCredential(Credentials.UserName, Credentials.Password);
             Client.Send(Message);
+        }
+
+        private static string GetQuoteOfTheDay() {
+            string ReturnValue = "";
+            int Attempts = 0;
+            while (Attempts <= 3 && ReturnValue.Equals("")) {
+                try {
+                    XNamespace content = "URI";
+                    StringBuilder sb = new StringBuilder();
+                    string Url = "http://archive.aweber.com/qod.rss";
+                    XmlReader Reader = XmlReader.Create(Url);
+                    SyndicationFeed Feed = SyndicationFeed.Load(Reader);
+                    SyndicationItem Item = Feed.Items.First();
+                    string Quote = Item.Summary.Text.Replace("\n", "");
+                    int EndOfQuote = Quote.LastIndexOf("LIKE THIS QUOTE?");
+                    Quote = Quote.Substring(0, EndOfQuote);
+                    ReturnValue = Quote;
+                    Reader.Close();
+                } catch (Exception Ex) {
+                    if (Attempts == 0) {
+                        WriteErrorMail("Unable to retrieve verse: \n" + Ex.Message + "\n" + Ex.StackTrace);
+                    }
+                    Attempts++;
+                }
+            }
+
+            return ReturnValue;
+
         }
 
         private static string GetVerseOfTheDay() {
